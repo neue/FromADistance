@@ -24,13 +24,18 @@ void testApp::setup(){
     
 	ofSetLogLevel(OF_LOG_VERBOSE);
 	bSaveModel = false;
+    pointLight.setDiffuseColor( ofColor(0.f, 255.f, 0.f));
+    
+    // specular color, the highlight/shininess color //
+	pointLight.setSpecularColor( ofColor(255.f, 255.f, 0.f));
+	pointLight.setPointLight();
+	float threshold = 0.2;
 
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
 	float counter = ((float)ofGetFrameNum()) * 0.01f;
-	float threshold = ((float)mouseX / ofGetWidth());
 	marchingCubes.resetIsoValues();
 	ofPoint force;
 	ofPoint gridCenter = marchingCubes.getGridPos();
@@ -51,12 +56,14 @@ void testApp::update(){
 		marchingCubes.saveModel("testBin.stl");
 		marchingCubes.saveModel("testASCII.stl", true);
 	}
+    pointLight.setPosition(500,2,0);
 
 }
 
 //--------------------------------------------------------------
 void testApp::draw(){
-    
+    pointLight.enable();
+    pointLight.draw();
 	ofPoint center(ofGetWidth()*0.5f, ofGetHeight()*0.5f, -1000);
 	ofPoint gridSize = marchingCubes.getGridSize();
 	float counter = (float)ofGetFrameNum();
@@ -65,11 +72,12 @@ void testApp::draw(){
 	ofTranslate(center.x, center.y, center.z);
 	ofRotate(counter*0.05f, 1.0f, 0.0f, 0.0f);
 	ofRotate(counter*0.1f, 0.0f, 1.0f, 0.0f);
-    
-	ofSetColor(0.0f, 0.0f, 0.0f);
-	marchingCubes.debugDraw();
+    glColor3f(1.0f, 1.0f, 1.0f);
+
+	marchingCubes.drawFilled();
 	ofPopMatrix();
-	
+    ofSetColor(0.0f, 0.0f, 0.0f);
+
     ofSetColor(0, 0, 0);
 	string info = "fps:" + ofToString(ofGetFrameRate()) +
 	+ "\nnum triangles:" + ofToString(marchingCubes.getNumTriangles(), 0)
@@ -106,6 +114,7 @@ void testApp::mousePressed(int x, int y, int button){
 
 //--------------------------------------------------------------
 void testApp::mouseReleased(int x, int y, int button){
+	threshold = ((float)mouseX / ofGetWidth());
 
 }
 

@@ -26,6 +26,7 @@ class testApp : public ofBaseApp{
 	ofLight light, reflections;
 	vector<MetaBall> metaBalls;
 	bool bSaveModel;
+    ofLight pointLight;
 
-    
+    float threshold;
 };

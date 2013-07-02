@@ -3,12 +3,13 @@
 //--------------------------------------------------------------
 void testApp::setup(){
 	ofBackground(250,250,250);
+    ofSetFrameRate(30);
 	ofSetVerticalSync(true);
 	ofPoint iniPos(0,0,0); //the position is refering to the center of the grid
-	ofPoint gridSize(1000, 1000, 1000);
-	int gridResX = 30;
-	int gridResY = 30;
-	int gridResZ = 30;
+	ofPoint gridSize(1500, 1500, 1500);
+	int gridResX = 40;
+	int gridResY = 40;
+	int gridResZ = 40;
 	marchingCubes.init(iniPos, gridSize, gridResX, gridResY, gridResZ);
 	glEnable(GL_DEPTH_TEST);
 	metaBalls.resize(NUM_META_BALLS);
@@ -17,7 +18,9 @@ void testApp::setup(){
 	}
     
     
+    
     ofEnableLighting();
+    ofSetSmoothLighting(true);
     light.enable();
     light.setup();
     
